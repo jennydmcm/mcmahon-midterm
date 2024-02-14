@@ -5,11 +5,10 @@ import Logo from '/public/logo.svg'
 import axios from 'axios'
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
-type weatherImages = {
-  [key in "Clear" | "Clouds" | "Rain" | "Thunderstorm" | "Snow"]: string;
-};
+type WeatherMain = "Clear" | "Clouds" | "Rain" | "Thunderstorm" | "Snow";
 
-const weatherImages = {
+
+const weatherImages: Record<WeatherMain, string> = {
   "Clear": "/sunny.svg",
   "Clouds": "/cloudy.svg",
   "Rain": "/rainy.svg",
@@ -90,7 +89,7 @@ export default function Home() {
                 <p className={styles.currentWind} >Wind Speed: {currentWeather.wind.speed}</p>
                 <p className={styles.currentCondition} >{currentWeather.weather[0].main}</p>
                 {currentWeather.weather[0].main in weatherImages && (
-                  <img className={styles.currentIcon} src={weatherImages[currentWeather.weather[0].main]} alt={currentWeather.weather[0].main} />
+                  <img className={styles.currentIcon} src={weatherImages[currentWeather.weather[0].main as WeatherMain]} alt={currentWeather.weather[0].main} />
                 )}
               </div>
             </div>
@@ -101,7 +100,7 @@ export default function Home() {
               {fiveDayWeather.map((item: any, index: number) => (
                 <div className={styles.fiveDayWeather} key={index}>
                   {item.weather[0].main in weatherImages && (
-                    <img className={styles.fiveIcon} src={weatherImages[item.weather[0].main]} alt={item.weather[0].main} />
+                    <img className={styles.fiveIcon} src={weatherImages[item.weather[0].main as WeatherMain]} alt={item.weather[0].main} />
                   )}
                   <p className={styles.fiveConditon} >{item.weather[0].main}</p>
                   <p className={styles.fiveTemp} >{item.main.temp.toFixed(1)}°C</p>
